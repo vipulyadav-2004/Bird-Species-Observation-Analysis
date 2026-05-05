@@ -1,14 +1,18 @@
 import streamlit as st
 import pandas as pd
 import sqlite3
+from pathlib import Path
 import plotly.express as px
 
 # --- PAGE SETUP ---
 st.set_page_config(page_title="Avian Biodiversity Dashboard", layout="wide", page_icon="🐦")
 
+BASE_DIR = Path(__file__).resolve().parent
+DB_PATH = BASE_DIR / "bird_species_observations.db"
+
 # --- DATABASE CONNECTION ---
 def get_data():
-    conn = sqlite3.connect('bird_species_observations.db')
+    conn = sqlite3.connect(DB_PATH)
     df = pd.read_sql_query("SELECT * FROM master_bird_monitoring_data", conn)
     conn.close()
     return df
